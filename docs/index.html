@@ -1,0 +1,304 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>nextjs-api-common-middleware - v1.0.1</title>
+	<meta name="description" content="Documentation for nextjs-api-common-middleware - v1.0.1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">nextjs-api-common-middleware - v1.0.1</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>nextjs-api-common-middleware - v1.0.1</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<div align="center">
+					<h1>
+						<img src="/assets/banner.jpg?raw=true" alt="nextjs-api-common-middleware" />
+					</h1>
+					<p><a href="https://nextjs-common-middleware.kldzj.dev/">Docs</a>
+						&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+						<a href="https://github.com/kldzj/nextjs-api-common-middleware/issues">Issues</a>
+						&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+						<a href="https://www.npmjs.com/package/nextjs-api-common-middleware">NPM</a>
+						&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+					<span>Examples <small><i>(coming some time)</i></small></span></p>
+				</div>
+				<br>
+				<a href="#what-this-is-about" id="what-this-is-about" style="color: inherit; text-decoration: none;">
+					<h2>What this is about</h2>
+				</a>
+				<p>This package exports some common <a href="https://nextjs.org/">Next.js</a> API middleware patterns that you might need across different applications. It aims to provide useful and mostly flexible drop-in functions.</p>
+				<a href="#what-is-included" id="what-is-included" style="color: inherit; text-decoration: none;">
+					<h3>What is included</h3>
+				</a>
+				<ul>
+					<li>Authorization: Basic, Bearer (JWT), Custom</li>
+					<li>Route Guarding: Make sure certain fields are present in the request</li>
+					<li>RESTify Your Routes: A simple function allowing you to map different handlers to http methods</li>
+					<li>Error Catching: Wrap your handlers with a convenient error handling middleware</li>
+				</ul>
+				<p>If you have something in mind that is generally help- or useful and is not included in this list, please feel free to open an issue.</p>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting Started</h2>
+				</a>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h3>Installation</h3>
+				</a>
+				<a href="#yarn" id="yarn" style="color: inherit; text-decoration: none;">
+					<h4>Yarn</h4>
+				</a>
+				<pre><code class="language-console">yarn add nextjs-api-common-middleware</code></pre>
+				<a href="#npm" id="npm" style="color: inherit; text-decoration: none;">
+					<h4>NPM</h4>
+				</a>
+				<pre><code class="language-console">npm install --save nextjs-api-common-middleware</code></pre>
+				<a href="#configuration" id="configuration" style="color: inherit; text-decoration: none;">
+					<h3>Configuration</h3>
+				</a>
+				<p>While generally not required, it is recommended that you re-export the middleware collection with your own default configuration.</p>
+				<p>Create a file called <code>middleware.js</code>/<code>middleware.ts</code> somewhere that suits you well, the contents of the file should look something like this:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { createExport } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;nextjs-api-common-middleware&#x27;</span>;
+
+<span class="hljs-keyword">const</span> m = createExport({
+    <span class="hljs-attr">catch</span>: <span class="hljs-function">(<span class="hljs-params">_req, res, err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.error(err);
+        res.status(<span class="hljs-number">500</span>).send(<span class="hljs-string">&#x27;An unknown error occurred&#x27;</span>);
+    },
+    <span class="hljs-attr">auth</span>: {
+        <span class="hljs-attr">strategy</span>: <span class="hljs-string">&#x27;custom&#x27;</span>,
+        <span class="hljs-attr">custom</span>: <span class="hljs-function">(<span class="hljs-params">authHeaderValue, _req</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span> (authHeaderValue &amp;&amp; authHeaderValue === <span class="hljs-string">&#x27;test&#x27;</span>) {
+                <span class="hljs-keyword">return</span> {
+                    <span class="hljs-attr">uid</span>: <span class="hljs-number">123</span>,
+                    <span class="hljs-attr">user</span>: {
+                        <span class="hljs-attr">firstname</span>: <span class="hljs-string">&#x27;Test&#x27;</span>,
+                        <span class="hljs-attr">lastname</span>: <span class="hljs-string">&#x27;User&#x27;</span>,
+                    },
+                };
+            }
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+        },
+    },
+});
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> m;</code></pre>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h3>Usage</h3>
+				</a>
+				<a href="#basic-example" id="basic-example" style="color: inherit; text-decoration: none;">
+					<h4>Basic Example</h4>
+				</a>
+				<pre><code class="language-javascript"><span class="hljs-comment">// src/pages/api/hello.js</span>
+<span class="hljs-keyword">import</span> m <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../middleware&#x27;</span>; <span class="hljs-comment">// or &#x27;nextjs-api-common-middleware&#x27;</span>
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handler</span>(<span class="hljs-params">req, res</span>) </span>{
+    res.json({ <span class="hljs-attr">hello</span>: <span class="hljs-string">&#x27;world&#x27;</span> });
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> m.auth(handler); <span class="hljs-comment">// second argument could be additional options</span></code></pre>
+				<a href="#chaining-middleware" id="chaining-middleware" style="color: inherit; text-decoration: none;">
+					<h4>Chaining Middleware</h4>
+				</a>
+				<pre><code class="language-javascript"><span class="hljs-comment">// src/pages/api/hello.js</span>
+<span class="hljs-keyword">import</span> m <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../../middleware&#x27;</span>; <span class="hljs-comment">// or &#x27;nextjs-api-common-middleware&#x27;</span>
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handler</span>(<span class="hljs-params">req, res</span>) </span>{
+    res.json({ <span class="hljs-attr">hello</span>: <span class="hljs-string">&#x27;world&#x27;</span> });
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> m._.chain([m.auth, m.guard], handler, {
+    <span class="hljs-comment">// auth options are still remembered from the initial configuration</span>
+    <span class="hljs-attr">guard</span>: {
+        <span class="hljs-attr">required</span>: [<span class="hljs-string">&#x27;foo&#x27;</span>],
+    },
+});</code></pre>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/authstrategy.html" class="tsd-kind-icon">Auth<wbr>Strategy</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/httpmethod.html" class="tsd-kind-icon">Http<wbr>Method</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/basicauthhandleroptions.html" class="tsd-kind-icon">Basic<wbr>Auth<wbr>Handler<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/corshandleroptions.html" class="tsd-kind-icon">Cors<wbr>Handler<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customauthhandleroptions.html" class="tsd-kind-icon">Custom<wbr>Auth<wbr>Handler<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/custombearerauthhandleroptions.html" class="tsd-kind-icon">Custom<wbr>Bearer<wbr>Auth<wbr>Handler<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/defaultbearerauthhandleroptions.html" class="tsd-kind-icon">Default<wbr>Bearer<wbr>Auth<wbr>Handler<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/emptyauthhandleroptions.html" class="tsd-kind-icon">Empty<wbr>Auth<wbr>Handler<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errorhandleroptions.html" class="tsd-kind-icon">Error<wbr>Handler<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/genericbearerauthhandleroptions.html" class="tsd-kind-icon">Generic<wbr>Bearer<wbr>Auth<wbr>Handler<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/guardhandleroptions.html" class="tsd-kind-icon">Guard<wbr>Handler<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/middlewareoptions.html" class="tsd-kind-icon">Middleware<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/possiblyauthednextapirequest.html" class="tsd-kind-icon">Possibly<wbr>Authed<wbr>Next<wbr>Api<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resterror.html" class="tsd-kind-icon">Rest<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resthandleroptions.html" class="tsd-kind-icon">Rest<wbr>Handler<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/userinfoobject.html" class="tsd-kind-icon">User<wbr>Info<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#authhandleroptions" class="tsd-kind-icon">Auth<wbr>Handler<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#bearerauthhandleroptions" class="tsd-kind-icon">Bearer<wbr>Auth<wbr>Handler<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#catchhandler" class="tsd-kind-icon">Catch<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#corsoriginhandler" class="tsd-kind-icon">Cors<wbr>Origin<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#corsoriginhandlerresult" class="tsd-kind-icon">Cors<wbr>Origin<wbr>Handler<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#middlewarehandler" class="tsd-kind-icon">Middleware<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#middlewareresthandler" class="tsd-kind-icon">Middleware<wbr>Rest<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#onehttpmethod" class="tsd-kind-icon">One<wbr>Http<wbr>Method</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#possiblyauthednextapihandler" class="tsd-kind-icon">Possibly<wbr>Authed<wbr>Next<wbr>Api<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#restmiddlewarehandlers" class="tsd-kind-icon">Rest<wbr>Middleware<wbr>Handlers</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#userid" class="tsd-kind-icon">User<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#userinfo" class="tsd-kind-icon">User<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#auth" class="tsd-kind-icon">auth</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#catchhandlererror" class="tsd-kind-icon">catch<wbr>Handler<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#chain" class="tsd-kind-icon">chain</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#cors" class="tsd-kind-icon">cors</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#createexport" class="tsd-kind-icon">create<wbr>Export</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#guard" class="tsd-kind-icon">guard</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#rest" class="tsd-kind-icon">rest</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

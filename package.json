@@ -1,0 +1,44 @@
+{
+	"name": "nextjs-api-common-middleware",
+	"description": "A collection of commonly used Next.js API middleware patterns",
+	"version": "1.0.1",
+	"main": "dist/index.js",
+	"files": [
+		"dist"
+	],
+	"repository": "https://github.com/kldzj/nextjs-api-common-middleware",
+	"bugs": "https://github.com/kldzj/nextjs-api-common-middleware/issues",
+	"homepage": "https://nextjs-common-middleware.kldzj.dev/",
+	"keywords": [
+		"next",
+		"nextjs",
+		"common",
+		"middleware"
+	],
+	"author": "kldzj",
+	"license": "MIT",
+	"scripts": {
+		"generate:docs": "typedoc",
+		"postbuild": "npm -s run generate:docs",
+		"build": "tsc",
+		"test": "jest",
+		"prepublishOnly": "npm run test && npm run build",
+		"postpublish": "git push origin master --follow-tags"
+	},
+	"dependencies": {
+		"jsonwebtoken": "^8.5.1",
+		"speakeasy": "^2.0.0"
+	},
+	"devDependencies": {
+		"@types/jest": "^26.0.10",
+		"@types/jsonwebtoken": "^8.5.0",
+		"@types/node": "^14.0.27",
+		"jest": "^26.4.0",
+		"next": "^9.5.2",
+		"node-mocks-http": "^1.8.1",
+		"rimraf": "^3.0.2",
+		"ts-jest": "^26.2.0",
+		"typedoc": "^0.18.0",
+		"typescript": "^3.9.7"
+	}
+}

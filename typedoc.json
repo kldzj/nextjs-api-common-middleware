@@ -1,0 +1,8 @@
+{
+	"inputFiles": ["./src"],
+	"stripInternal": true,
+	"excludeNotExported": true,
+	"includeVersion": true,
+	"mode": "file",
+	"out": "docs"
+}
